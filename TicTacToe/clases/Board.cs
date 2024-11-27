@@ -79,6 +79,49 @@ public class Board
         return false;
     }
 
+    public int MinMax(bool isMaximizing)
+    {
+        if (IsWinner('O')) return 1;
+        if (IsWinner('X')) return -1;
+        if (IsFilled()) return 0;
+        if (isMaximizing)
+        {
+            int maxEval = int.MinValue;
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    if (board[i, j] == ' ')
+                    {
+                        board[i, j] = 'O'; // Програма робить хід
+                        int eval = MinMax(false); // Рекурсивно оцінюємо
+                        board[i, j] = ' '; // Скасовуємо хід
+                        maxEval = Math.Max(maxEval, eval); // Обираємо найкращу оцінку
+                    }
+                }
+            }
+            return maxEval;
+        }
+        else
+        {
+            int minEval = int.MaxValue;
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    if (board[i, j] == ' ')
+                    {
+                        board[i, j] = 'X'; // Людина робить хід
+                        int eval = MinMax(true); // Рекурсивно оцінюємо
+                        board[i, j] = ' '; // Скасовуємо хід
+                        minEval = Math.Min(minEval, eval); // Обираємо найгіршу оцінку для Max
+                    }
+                }
+            }
+            return minEval;
+        }
+    }
+
 
     public char Current_player
     {

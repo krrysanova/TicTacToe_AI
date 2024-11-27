@@ -39,7 +39,7 @@ public class Game1 : Game
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
         board = new Board();
-        robot = new AiPlayer();
+        robot = new AiPlayer(board);
         XTexture = Content.Load<Texture2D>("X");
         OTexture = Content.Load<Texture2D>("nula");
         font = Content.Load<SpriteFont>("Arial");
@@ -86,7 +86,7 @@ public class Game1 : Game
             }
             else if (board.Current_player == 'O')
             {
-                (int row, int col) = robot.GetMove(board);
+                (int row, int col) = robot.BestMove();
                 if (board.MakeMove(row, col))
                 {
                     if (board.IsWinner(board.Current_player))
